@@ -1,7 +1,7 @@
 fluent-plugin-mysql-query
 ===========================
 
-Fluentd Input plugin to execute mysql command intervaled.
+Fluentd Input plugin to execute mysql query for stationary measurement.
 
 ## Installation
 
@@ -29,7 +29,11 @@ gem install fluent-plugin-mysql-query
   interval        30s                 # Optional (default: 1m)
   tag             input.mysql         # Required
   query           SHOW VARIABLES LIKE 'Thread_%' # Required
+  # inserting hostname into record.
   record_hostname yes                 # Optional (yes/no)
+  # multi row results to be nested or separated record.
+  nest_result     no                  # Optional (yes/no)
+  nest_keyname    data                # Optional (default: result)
 </source>
 
 <match input.mysql>
@@ -38,14 +42,23 @@ gem install fluent-plugin-mysql-query
 `````
 
 ### Output Sample
+record_hostname: no, nest_result: no
 `````
 input.mysql: {"hostname":"myhost.example.com","Variable_name":"thread_cache_size","Value":"16"}
 input.mysql: {"hostname":"myhost.example.com","Variable_name":"thread_stack","Value":"262144"}
 `````
+record_hostname: no, nest_result: yes, nest_keyname: data
+`````
+input.mysql: {"hostname":"myhost.example.com","data":[{"Variable_name":"thread_cache_size","Value":"16"},{"Variable_name":"thread_stack","Value":"262144"}]}
+`````
+
+### Query Example
+* SHOW VARIABLES LIKE 'Thread_%';
+* SELECT MAX(id) AS max_foo_id FROM foo_table;
+* SHOW FULL PROCESSLIST;
 
 ## TODO
 patches welcome!
-* support results into array option
 * support result_key_downcase option
 
 ## Copyright

@@ -7,7 +7,7 @@ Gem::Specification.new do |s|
   s.authors     = ["Kentaro Yoshida"]
   s.email       = ["y.ken.studio@gmail.com"]
   s.homepage    = "https://github.com/y-ken/fluent-plugin-mysql-query"
-  s.summary     = %q{Fluentd Input plugin to execute mysql query with custom intervals.}
+  s.summary     = %q{Fluentd Input plugin to execute mysql query for stationary measurement.}
 
   s.files         = `git ls-files`.split("\n")
   s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
