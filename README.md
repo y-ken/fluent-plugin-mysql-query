@@ -42,20 +42,21 @@ gem install fluent-plugin-mysql-query
 `````
 
 ### Output Sample
-record_hostname: no, nest_result: no
+record_hostname: yes, nest_result: no
 `````
 input.mysql: {"hostname":"myhost.example.com","Variable_name":"thread_cache_size","Value":"16"}
 input.mysql: {"hostname":"myhost.example.com","Variable_name":"thread_stack","Value":"262144"}
 `````
-record_hostname: no, nest_result: yes, nest_keyname: data
+record_hostname: yes, nest_result: yes, nest_keyname: data
 `````
 input.mysql: {"hostname":"myhost.example.com","data":[{"Variable_name":"thread_cache_size","Value":"16"},{"Variable_name":"thread_stack","Value":"262144"}]}
 `````
 
-### Query Example
+### Example Query
 * SHOW VARIABLES LIKE 'Thread_%';
 * SELECT MAX(id) AS max_foo_id FROM foo_table;
 * SHOW FULL PROCESSLIST;
+* INSERT INTO log (data, created_at) VALUES((SELECT MAX(id) FROM foo_table), NOW());
 
 ## TODO
 patches welcome!
