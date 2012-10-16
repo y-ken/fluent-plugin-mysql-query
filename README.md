@@ -22,7 +22,7 @@ gem install fluent-plugin-mysql-query
 `````
 <source>
   type            mysql_query
-  server          localhost           # Optional (default: localhost)
+  host            localhost           # Optional (default: localhost)
   port            3306                # Optional (default: 3306)
   username        nagios              # Optional (default: root)
   password        passw0rd            # Optional (default nopassword)
@@ -30,10 +30,10 @@ gem install fluent-plugin-mysql-query
   tag             input.mysql         # Required
   query           SHOW VARIABLES LIKE 'Thread_%' # Required
   # inserting hostname into record.
-  record_hostname yes                 # Optional (yes/no)
+  record_hostname yes                 # Optional (default: no)
   # multi row results to be nested or separated record.
-  nest_result     no                  # Optional (yes/no)
-  nest_keyname    data                # Optional (default: result)
+  nest_result     no                  # Optional (default: no)
+  nest_key        data                # Optional (default: result)
 </source>
 
 <match input.mysql>
