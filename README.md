@@ -47,7 +47,7 @@ record_hostname: yes, nest_result: no
 input.mysql: {"hostname":"myhost.example.com","Variable_name":"thread_cache_size","Value":"16"}
 input.mysql: {"hostname":"myhost.example.com","Variable_name":"thread_stack","Value":"262144"}
 `````
-record_hostname: yes, nest_result: yes, nest_keyname: data
+record_hostname: yes, nest_result: yes, nest_key: data
 `````
 input.mysql: {"hostname":"myhost.example.com","data":[{"Variable_name":"thread_cache_size","Value":"16"},{"Variable_name":"thread_stack","Value":"262144"}]}
 `````
@@ -57,6 +57,8 @@ input.mysql: {"hostname":"myhost.example.com","data":[{"Variable_name":"thread_c
 * SELECT MAX(id) AS max_foo_id FROM foo_table;
 * SHOW FULL PROCESSLIST;
 * INSERT INTO log (data, created_at) VALUES((SELECT MAX(id) FROM foo_table), NOW());
+* SHOW SLAVE STATUS;
+* SHOW INNODB STATUS;
 
 ## TODO
 patches welcome!
