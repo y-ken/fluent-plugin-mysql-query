@@ -29,12 +29,12 @@ gem install fluent-plugin-mysql-query
   interval        30s                 # Optional (default: 1m)
   tag             input.mysql         # Required
   query           SHOW VARIABLES LIKE 'Thread_%' # Required
-  # inserting hostname into record.
+  # record hostname into message.
   record_hostname yes                 # Optional (default: no)
-  # multi row results to be nested or separated record.
+  # multi row results into nested record or separated message.
   nest_result     yes                 # Optional (default: no)
   nest_key        data                # Optional (default: result)
-  # count result row size
+  # record the number of lines of a query result
   row_count       yes                 # Optional (default: no)
   row_count_key   row_count           # Optional (default: row_count)
 </source>
