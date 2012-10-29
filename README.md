@@ -32,8 +32,11 @@ gem install fluent-plugin-mysql-query
   # inserting hostname into record.
   record_hostname yes                 # Optional (default: no)
   # multi row results to be nested or separated record.
-  nest_result     no                  # Optional (default: no)
+  nest_result     yes                 # Optional (default: no)
   nest_key        data                # Optional (default: result)
+  # count result row size
+  row_count       yes                 # Optional (default: no)
+  row_count_key   row_count           # Optional (default: row_count)
 </source>
 
 <match input.mysql>
@@ -50,6 +53,10 @@ input.mysql: {"hostname":"myhost.example.com","Variable_name":"thread_stack","Va
 record_hostname: yes, nest_result: yes, nest_key: data
 `````
 input.mysql: {"hostname":"myhost.example.com","data":[{"Variable_name":"thread_cache_size","Value":"16"},{"Variable_name":"thread_stack","Value":"262144"}]}
+`````
+record_hostname: yes, nest_result: yes, nest_key: data, row_count: yes, row_count_key: row_count
+`````
+input.mysql: {"hostname":"myhost.example.com","row_count":2,"data":[{"Variable_name":"thread_cache_size","Value":"16"},{"Variable_name":"thread_stack","Value":"262144"}]}
 `````
 
 ### Example Query

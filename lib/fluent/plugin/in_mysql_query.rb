@@ -18,6 +18,8 @@ module Fluent
     config_param :query, :string
     config_param :nest_result, :string, :default => nil
     config_param :nest_key, :string, :default => 'result'
+    config_param :row_count, :string, :default => nil
+    config_param :row_count_key, :string, :default => 'row_count'
     config_param :record_hostname, :string, :default => nil
 
     def configure(conf)
@@ -25,6 +27,7 @@ module Fluent
       @hostname = get_mysql_hostname
       @interval = Config.time_value(@interval)
       @nest_result = Config.bool_value(@nest_result) || false
+      @row_count = Config.bool_value(@row_count) || false
       @record_hostname = Config.bool_value(@record_hostname) || false
       $log.info "adding mysql_query job: [#{@query}] interval: #{@interval}sec"
     end
@@ -43,6 +46,7 @@ module Fluent
         record = Hash.new
         record.store('hostname', @hostname) if @record_hostname
         result = get_exec_result
+        record.store(@row_count_key, result.size) if @row_count
         if (@nest_result)
           record.store(@nest_key, result)
           Engine.emit(tag, Engine.now, record)
