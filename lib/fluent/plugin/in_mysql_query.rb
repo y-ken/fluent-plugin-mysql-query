@@ -24,7 +24,7 @@ module Fluent
 
     def configure(conf)
       super
-      @hostname = get_mysql_hostname
+      @hostname = nil
       @interval = Config.time_value(@interval)
       @nest_result = Config.bool_value(@nest_result) || false
       @row_count = Config.bool_value(@row_count) || false
@@ -42,6 +42,7 @@ module Fluent
 
     def run
       loop do
+        @hostname = get_mysql_hostname if @hostname.nil?
         tag = "#{@tag}".gsub('__HOSTNAME__', @hostname).gsub('${hostname}', @hostname)
         record = Hash.new
         record.store('hostname', @hostname) if @record_hostname
@@ -60,15 +61,21 @@ module Fluent
     end
 
     def get_connection
-      return Mysql2::Client.new({
-        :host => @host, 
-        :port => @port,
-        :username => @username,
-        :password => @password,
-        :database => @database,
-        :encoding => @encoding,
-        :reconnect => true
-      })
+      begin
+        return Mysql2::Client.new({
+          :host => @host,
+          :port => @port,
+          :username => @username,
+          :password => @password,
+          :database => @database,
+          :encoding => @encoding,
+          :reconnect => true
+        })
+      rescue Exception => e
+        $log.warn "mysql_query: #{e}"
+        sleep @interval
+        retry
+      end
     end
 
     def query(query)
@@ -76,7 +83,9 @@ module Fluent
       begin
         return @mysql.query(query, :cast => false, :cache_rows => false)
       rescue Exception => e
-        $log.info "#{e.inspect}"
+        $log.warn "mysql_query: #{e}"
+        sleep @interval
+        retry
       end
     end
 
