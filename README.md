@@ -65,7 +65,8 @@ input.mysql: {"hostname":"myhost.example.com","row_count":2,"data":[{"Variable_n
 * SHOW FULL PROCESSLIST;
 * INSERT INTO log (data, created_at) VALUES((SELECT MAX(id) FROM foo_table), NOW());
 * SHOW SLAVE STATUS;
-* SHOW INNODB STATUS;
+* SHOW INNODB STATUS; -- MySQL 5.0
+* SHOW ENGINE INNODB STATUS; -- MySQL 5.5 or later
 
 ## TODO
 patches welcome!
