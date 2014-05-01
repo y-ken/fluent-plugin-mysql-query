@@ -30,7 +30,6 @@ class MysqlQueryInputTest < Test::Unit::TestCase
       query           SHOW VARIABLES LIKE 'Thread_%'
       record_hostname yes
     ]
-    d.instance.inspect
     assert_equal 'localhost', d.instance.host
     assert_equal 3306, d.instance.port
     assert_equal 30, d.instance.interval
