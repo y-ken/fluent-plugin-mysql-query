@@ -5,16 +5,15 @@ Fluentd Input plugin to execute mysql query and fetch rows. It is useful for sta
 
 ## Installation
 
-### native gem
+install with gem or fluent-gem command as:
 
-`````
-gem install fluent-plugin-mysql-query
-`````
+```
+# for fluentd
+$ gem install fluent-plugin-mysql-query
 
-### td-agent gem
-`````
-/usr/lib64/fluent/ruby/bin/fluent-gem install fluent-plugin-mysql-query
-`````
+# for td-agent
+$ sudo /usr/lib64/fluent/ruby/bin/fluent-gem install fluent-plugin-mysql-query
+```
 
 ## Configuration
 
@@ -67,6 +66,11 @@ input.mysql: {"hostname":"myhost.example.com","row_count":2,"data":[{"Variable_n
 * SHOW SLAVE STATUS;
 * SHOW INNODB STATUS; -- MySQL 5.0
 * SHOW ENGINE INNODB STATUS; -- MySQL 5.5 or later
+
+### Tips
+
+* Fetching query from multiple mysql host<br />
+https://github.com/y-ken/fluent-plugin-mysql-query/issues/2
 
 ## TODO
 patches welcome!
