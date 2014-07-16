@@ -35,6 +35,6 @@ class MysqlQueryInputTest < Test::Unit::TestCase
     assert_equal 30, d.instance.interval
     assert_equal 'input.mysql', d.instance.tag
     assert_equal true, d.instance.record_hostname
+    assert_equal false, d.instance.nest_result
   end
 end
-

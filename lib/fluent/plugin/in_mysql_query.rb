@@ -13,22 +13,18 @@ module Fluent
     config_param :password, :string, :default => nil
     config_param :database, :string, :default => nil
     config_param :encoding, :string, :default => 'utf8'
-    config_param :interval, :string, :default => '1m'
+    config_param :interval, :time, :default => '1m'
     config_param :tag, :string
     config_param :query, :string
-    config_param :nest_result, :string, :default => nil
+    config_param :nest_result, :bool, :default => false
     config_param :nest_key, :string, :default => 'result'
-    config_param :row_count, :string, :default => nil
+    config_param :row_count, :bool, :default => false
     config_param :row_count_key, :string, :default => 'row_count'
-    config_param :record_hostname, :string, :default => nil
+    config_param :record_hostname, :bool, :default => false
 
     def configure(conf)
       super
       @hostname = nil
-      @interval = Config.time_value(@interval)
-      @nest_result = Config.bool_value(@nest_result) || false
-      @row_count = Config.bool_value(@row_count) || false
-      @record_hostname = Config.bool_value(@record_hostname) || false
       $log.info "adding mysql_query job: [#{@query}] interval: #{@interval}sec"
     end
 
