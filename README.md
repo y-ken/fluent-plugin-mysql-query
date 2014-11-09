@@ -81,8 +81,8 @@ cron    * * * * *
         | | | | +—– Day of week (0–6) (Sunday=0) or Sun, Mon, Tue,…
         | | | +———- Month (1–12) or Jan, Feb,…
         | | +————-— Day of month (1–31)
-        | +——————– Hour (0–23)
-        +————————- Minute (0–59)
+        | +——————–— Hour (0–23)
+        +————————-— Minute (0–59)
 `````
 
 ### Output Sample
