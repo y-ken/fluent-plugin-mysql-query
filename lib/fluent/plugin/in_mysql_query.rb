@@ -15,7 +15,7 @@ module Fluent
     config_param :password, :string, :default => nil
     config_param :database, :string, :default => nil
     config_param :encoding, :string, :default => 'utf8'
-    config_param :interval, :string, :default => nil
+    config_param :interval, :time, :default => nil
     config_param :cron, :string, :default => nil
     config_param :tag, :string
     config_param :query, :string
