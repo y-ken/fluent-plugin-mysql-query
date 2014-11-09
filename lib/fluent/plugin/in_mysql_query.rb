@@ -32,6 +32,11 @@ module Fluent
     end
 
     def start
+
+      unless @cron and @interval
+        @thread = Thread.new(&method(:run))
+      end
+
       if @cron
         @thread = Thread.new(&method(:run_cron))
       end
