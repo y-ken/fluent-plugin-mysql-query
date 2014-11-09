@@ -74,6 +74,7 @@ $ sudo /usr/lib64/fluent/ruby/bin/fluent-gem install fluent-plugin-mysql-query
 `````
 
 ### Cron format
+`````
 cron    * * * * *
         - – – – -
         | | | | |
@@ -82,6 +83,7 @@ cron    * * * * *
         | | +————-— Day of month (1–31)
         | +——————– Hour (0–23)
         +————————- Minute (0–59)
+`````
 
 ### Output Sample
 record_hostname: yes, nest_result: no
