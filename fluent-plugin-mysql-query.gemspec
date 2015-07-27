@@ -4,6 +4,7 @@ $:.push File.expand_path("../lib", __FILE__)
 Gem::Specification.new do |s|
   s.name        = "fluent-plugin-mysql-query"
   s.version     = "0.2.3"
+  s.license     = "Apache-2.0"
   s.authors     = ["Kentaro Yoshida"]
   s.email       = ["y.ken.studio@gmail.com"]
   s.homepage    = "https://github.com/y-ken/fluent-plugin-mysql-query"
