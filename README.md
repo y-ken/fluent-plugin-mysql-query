@@ -17,7 +17,7 @@ $ sudo /usr/lib64/fluent/ruby/bin/fluent-gem install fluent-plugin-mysql-query
 
 ## Configuration
 
-### Config Sample
+### Example of configuration to run in a interval of time
 `````
 <source>
   type            mysql_query
@@ -25,7 +25,9 @@ $ sudo /usr/lib64/fluent/ruby/bin/fluent-gem install fluent-plugin-mysql-query
   port            3306                # Optional (default: 3306)
   username        nagios              # Optional (default: root)
   password        passw0rd            # Optional (default nopassword)
+
   interval        30s                 # Optional (default: 1m)
+
   tag             input.mysql         # Required
   query           SHOW VARIABLES LIKE 'Thread_%' # Required
   # record hostname into message.
@@ -41,6 +43,46 @@ $ sudo /usr/lib64/fluent/ruby/bin/fluent-gem install fluent-plugin-mysql-query
 <match input.mysql>
   type stdout
 </match>
+`````
+
+### Example of configuration to schedule the executions as crontab
+`````
+<source>
+  type            mysql_query
+  host            localhost           # Optional (default: localhost)
+  port            3306                # Optional (default: 3306)
+  username        nagios              # Optional (default: root)
+  password        passw0rd            # Optional (default nopassword)
+
+  cron            0 9 * * *           # Optional (run at 9 am)
+
+  tag             input.mysql         # Required
+  query           SHOW VARIABLES LIKE 'Thread_%' # Required
+  # record hostname into message.
+  record_hostname yes                 # Optional (default: no)
+  # multi row results into nested record or separated message.
+  nest_result     yes                 # Optional (default: no)
+  nest_key        data                # Optional (default: result)
+  # record the number of lines of a query result
+  row_count       yes                 # Optional (default: no)
+  row_count_key   row_count           # Optional (default: row_count)
+</source>
+
+<match input.mysql>
+  type stdout
+</match>
+`````
+
+### Cron format
+`````
+cron    * * * * *
+        - – – – -
+        | | | | |
+        | | | | +—– Day of week (0–6) (Sunday=0) or Sun, Mon, Tue,…
+        | | | +———- Month (1–12) or Jan, Feb,…
+        | | +————-— Day of month (1–31)
+        | +——————–— Hour (0–23)
+        +————————-— Minute (0–59)
 `````
 
 ### Output Sample

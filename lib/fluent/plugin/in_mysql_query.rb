@@ -4,6 +4,8 @@ module Fluent
 
     def initialize
       require 'mysql2'
+      require 'rufus-scheduler'
+      @scheduler = Rufus::Scheduler.new
       super
     end
 
@@ -13,7 +15,8 @@ module Fluent
     config_param :password, :string, :default => nil
     config_param :database, :string, :default => nil
     config_param :encoding, :string, :default => 'utf8'
-    config_param :interval, :time, :default => '1m'
+    config_param :interval, :time, :default => nil
+    config_param :cron, :string, :default => nil
     config_param :tag, :string
     config_param :query, :string
     config_param :nest_result, :bool, :default => false
@@ -25,11 +28,23 @@ module Fluent
     def configure(conf)
       super
       @hostname = nil
-      $log.info "adding mysql_query job: [#{@query}] interval: #{@interval}sec"
+      #$log.info "adding mysql_query job: [#{@query}] interval: #{@interval}sec"
     end
 
     def start
-      @thread = Thread.new(&method(:run))
+
+      unless @cron and @interval
+        @thread = Thread.new(&method(:run))
+      end
+
+      if @cron
+        @thread = Thread.new(&method(:run_cron))
+      end
+
+      if @interval
+        @thread = Thread.new(&method(:run_interval))
+      end
+      
     end
 
     def shutdown
@@ -37,23 +52,34 @@ module Fluent
     end
 
     def run
-      loop do
-        @hostname = get_mysql_hostname if @hostname.nil?
-        tag = "#{@tag}".gsub('__HOSTNAME__', @hostname).gsub('${hostname}', @hostname)
-        record = Hash.new
-        record.store('hostname', @hostname) if @record_hostname
-        result = get_exec_result
-        record.store(@row_count_key, result.size) if @row_count
-        if (@nest_result)
-          record.store(@nest_key, result)
-          Engine.emit(tag, Engine.now, record)
-        else
-          result.each do |data|
-            Engine.emit(tag, Engine.now, record.merge(data))
-          end
+      @hostname = get_mysql_hostname if @hostname.nil?
+      tag = "#{@tag}".gsub('__HOSTNAME__', @hostname).gsub('${hostname}', @hostname)
+      record = Hash.new
+      record.store('hostname', @hostname) if @record_hostname
+      result = get_exec_result
+      record.store(@row_count_key, result.size) if @row_count
+      if (@nest_result)
+        record.store(@nest_key, result)
+        Engine.emit(tag, Engine.now, record)
+      else
+        result.each do |data|
+          Engine.emit(tag, Engine.now, record.merge(data))
         end
-        sleep @interval
       end
+    end
+
+    def run_cron
+      @scheduler.cron @cron do
+        run()
+      end
+      @scheduler.join
+    end
+
+    def run_interval
+      @scheduler.interval @interval do
+        run()
+      end
+      @scheduler.join
     end
 
     def get_connection
