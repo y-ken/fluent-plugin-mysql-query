@@ -2,6 +2,11 @@ module Fluent
   class MysqlQueryInput < Fluent::Input
     Plugin.register_input('mysql_query', self)
 
+    # Define `router` method to support v0.10.57 or earlier
+    unless method_defined?(:router)
+      define_method("router") { Fluent::Engine }
+    end
+
     def initialize
       require 'mysql2'
       super
@@ -46,10 +51,10 @@ module Fluent
         record.store(@row_count_key, result.size) if @row_count
         if (@nest_result)
           record.store(@nest_key, result)
-          Engine.emit(tag, Engine.now, record)
+          router.emit(tag, Engine.now, record)
         else
           result.each do |data|
-            Engine.emit(tag, Engine.now, record.merge(data))
+            router.emit(tag, Engine.now, record.merge(data))
           end
         end
         sleep @interval
