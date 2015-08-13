@@ -2,6 +2,11 @@ module Fluent
   class MysqlQueryInput < Fluent::Input
     Plugin.register_input('mysql_query', self)
 
+    # Define `router` method to support v0.10.57 or earlier
+    unless method_defined?(:router)
+      define_method("router") { Fluent::Engine }
+    end
+
     def initialize
       require 'mysql2'
       super
