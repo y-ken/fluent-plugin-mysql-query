@@ -1,9 +1,11 @@
-require 'fluent/input'
+require 'fluent/plugin/input'
 require 'mysql2'
 
-module Fluent
-  class MysqlQueryInput < Fluent::Input
-    Plugin.register_input('mysql_query', self)
+module Fluent::Plugin
+  class MysqlQueryInput < Fluent::Plugin::Input
+    Fluent::Plugin.register_input('mysql_query', self)
+
+    helpers :timer
 
     config_param :host, :string, default: 'localhost'
     config_param :port, :integer, default: 3306
@@ -27,30 +29,24 @@ module Fluent
     end
 
     def start
-      @thread = Thread.new(&method(:run))
+      super
+      timer_execute(:in_mysql_query, @interval, &method(:on_timer))
     end
 
-    def shutdown
-      Thread.kill(@thread)
-    end
-
-    def run
-      loop do
-        @hostname = get_mysql_hostname if @hostname.nil?
-        tag = "#{@tag}".gsub('__HOSTNAME__', @hostname).gsub('${hostname}', @hostname)
-        record = Hash.new
-        record.store('hostname', @hostname) if @record_hostname
-        result = get_exec_result
-        record.store(@row_count_key, result.size) if @row_count
-        if (@nest_result)
-          record.store(@nest_key, result)
-          router.emit(tag, Engine.now, record)
-        else
-          result.each do |data|
-            router.emit(tag, Engine.now, record.merge(data))
-          end
+    def on_timer
+      @hostname = get_mysql_hostname if @hostname.nil?
+      tag = "#{@tag}".gsub('__HOSTNAME__', @hostname).gsub('${hostname}', @hostname)
+      record = Hash.new
+      record.store('hostname', @hostname) if @record_hostname
+      result = get_exec_result
+      record.store(@row_count_key, result.size) if @row_count
+      if (@nest_result)
+        record.store(@nest_key, result)
+        router.emit(tag, Engine.now, record)
+      else
+        result.each do |data|
+          router.emit(tag, Engine.now, record.merge(data))
         end
-        sleep @interval
       end
     end
 
