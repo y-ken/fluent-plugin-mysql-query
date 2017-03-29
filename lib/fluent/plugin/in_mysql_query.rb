@@ -62,7 +62,7 @@ module Fluent::Plugin
           reconnect: true
         })
       rescue Exception => e
-        $log.warn "mysql_query: #{e}"
+        log.warn "mysql_query: #{e}"
         sleep @interval
         retry
       end
@@ -73,7 +73,7 @@ module Fluent::Plugin
       begin
         return @mysql.query(query, cast: false, cache_rows: false)
       rescue Exception => e
-        $log.warn "mysql_query: #{e}"
+        log.warn "mysql_query: #{e}"
         sleep @interval
         retry
       end
