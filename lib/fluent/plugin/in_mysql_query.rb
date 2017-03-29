@@ -36,7 +36,7 @@ module Fluent::Plugin
     def on_timer
       @hostname = get_mysql_hostname if @hostname.nil?
       tag = "#{@tag}".gsub('__HOSTNAME__', @hostname).gsub('${hostname}', @hostname)
-      record = Hash.new
+      record = {}
       record.store('hostname', @hostname) if @record_hostname
       result = get_exec_result
       record.store(@row_count_key, result.size) if @row_count
@@ -88,7 +88,7 @@ module Fluent::Plugin
     end
 
     def get_exec_result
-      result = Array.new
+      result = []
       stmt = query(@query)
       stmt.each do |row|
         result.push(row)
