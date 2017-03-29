@@ -6,7 +6,7 @@ Fluentd Input plugin to execute mysql query and fetch rows. It is useful for sta
 ## Requirements
 
 | fluent-plugin-mysql | fluentd    | ruby   |
-|---------------------+------------+--------|
+|---------------------|------------|--------|
 | >= 0.4.0            | >= v0.14.0 | >= 2.1 |
 | < 0.4.0             | >= v0.12.0 | >= 1.9 |
 
