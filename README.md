@@ -3,6 +3,13 @@ fluent-plugin-mysql-query [![Build Status](https://travis-ci.org/y-ken/fluent-pl
 
 Fluentd Input plugin to execute mysql query and fetch rows. It is useful for stationary interval metrics measurement.
 
+## Requirements
+
+| fluent-plugin-mysql | fluentd    | ruby   |
+|---------------------+------------+--------|
+| >= 0.4.0            | >= v0.14.0 | >= 2.1 |
+| < 0.4.0             | >= v0.12.0 | >= 1.9 |
+
 ## Installation
 
 install with gem or fluent-gem command as:
