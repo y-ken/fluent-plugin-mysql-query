@@ -20,7 +20,7 @@ $ sudo /usr/lib64/fluent/ruby/bin/fluent-gem install fluent-plugin-mysql-query
 ### Config Sample
 `````
 <source>
-  type            mysql_query
+  @type            mysql_query
   host            localhost           # Optional (default: localhost)
   port            3306                # Optional (default: 3306)
   username        nagios              # Optional (default: root)
@@ -39,7 +39,7 @@ $ sudo /usr/lib64/fluent/ruby/bin/fluent-gem install fluent-plugin-mysql-query
 </source>
 
 <match input.mysql>
-  type stdout
+  @type stdout
 </match>
 `````
 
