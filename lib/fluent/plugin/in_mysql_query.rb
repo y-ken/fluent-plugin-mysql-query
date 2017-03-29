@@ -1,4 +1,5 @@
 require 'fluent/input'
+require 'mysql2'
 
 module Fluent
   class MysqlQueryInput < Fluent::Input
@@ -7,11 +8,6 @@ module Fluent
     # Define `router` method to support v0.10.57 or earlier
     unless method_defined?(:router)
       define_method("router") { Fluent::Engine }
-    end
-
-    def initialize
-      require 'mysql2'
-      super
     end
 
     config_param :host, :string, default: 'localhost'
