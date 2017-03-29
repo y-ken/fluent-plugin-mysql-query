@@ -5,11 +5,6 @@ module Fluent
   class MysqlQueryInput < Fluent::Input
     Plugin.register_input('mysql_query', self)
 
-    # Define `router` method to support v0.10.57 or earlier
-    unless method_defined?(:router)
-      define_method("router") { Fluent::Engine }
-    end
-
     config_param :host, :string, default: 'localhost'
     config_param :port, :integer, default: 3306
     config_param :username, :string, default: 'root'
