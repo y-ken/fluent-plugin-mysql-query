@@ -14,20 +14,20 @@ module Fluent
       super
     end
 
-    config_param :host, :string, :default => 'localhost'
-    config_param :port, :integer, :default => 3306
-    config_param :username, :string, :default => 'root'
-    config_param :password, :string, :default => nil, :secret => true
-    config_param :database, :string, :default => nil
-    config_param :encoding, :string, :default => 'utf8'
-    config_param :interval, :time, :default => '1m'
+    config_param :host, :string, default: 'localhost'
+    config_param :port, :integer, default: 3306
+    config_param :username, :string, default: 'root'
+    config_param :password, :string, default: nil, secret: true
+    config_param :database, :string, default: nil
+    config_param :encoding, :string, default: 'utf8'
+    config_param :interval, :time, default: '1m'
     config_param :tag, :string
     config_param :query, :string
-    config_param :nest_result, :bool, :default => false
-    config_param :nest_key, :string, :default => 'result'
-    config_param :row_count, :bool, :default => false
-    config_param :row_count_key, :string, :default => 'row_count'
-    config_param :record_hostname, :bool, :default => false
+    config_param :nest_result, :bool, default: false
+    config_param :nest_key, :string, default: 'result'
+    config_param :row_count, :bool, default: false
+    config_param :row_count_key, :string, default: 'row_count'
+    config_param :record_hostname, :bool, default: false
 
     def configure(conf)
       super
@@ -66,13 +66,13 @@ module Fluent
     def get_connection
       begin
         return Mysql2::Client.new({
-          :host => @host,
-          :port => @port,
-          :username => @username,
-          :password => @password,
-          :database => @database,
-          :encoding => @encoding,
-          :reconnect => true
+          host: @host,
+          port: @port,
+          username: @username,
+          password: @password,
+          database: @database,
+          encoding: @encoding,
+          reconnect: true
         })
       rescue Exception => e
         $log.warn "mysql_query: #{e}"
@@ -84,7 +84,7 @@ module Fluent
     def query(query)
       @mysql ||= get_connection
       begin
-        return @mysql.query(query, :cast => false, :cache_rows => false)
+        return @mysql.query(query, cast: false, cache_rows: false)
       rescue Exception => e
         $log.warn "mysql_query: #{e}"
         sleep @interval
