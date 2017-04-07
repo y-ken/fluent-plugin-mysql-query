@@ -14,6 +14,7 @@ module Fluent
 
     config_param :host, :string, :default => 'localhost'
     config_param :port, :integer, :default => 3306
+    config_param :socket, :string, :default => nil
     config_param :username, :string, :default => 'root'
     config_param :password, :string, :default => nil, :secret => true
     config_param :database, :string, :default => nil
@@ -66,6 +67,7 @@ module Fluent
         return Mysql2::Client.new({
           :host => @host,
           :port => @port,
+          :socket => @socket,
           :username => @username,
           :password => @password,
           :database => @database,
