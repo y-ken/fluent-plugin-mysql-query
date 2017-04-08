@@ -96,6 +96,8 @@ module Fluent
       query("SHOW VARIABLES LIKE 'hostname'").each do |row|
         return row.fetch('Value')
       end
+      # hostname variable is not present
+      return ''
     end
 
     def get_exec_result
