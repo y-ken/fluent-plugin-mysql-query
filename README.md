@@ -1,4 +1,4 @@
-fluent-plugin-mysql-query [![Build Status](https://travis-ci.org/y-ken/fluent-plugin-mysql-query.png?branch=master)](https://travis-ci.org/y-ken/fluent-plugin-mysql-query)
+fluent-plugin-mysql-query, a plugin for [Fluentd](http://fluentd.org) [![Build Status](https://travis-ci.org/y-ken/fluent-plugin-mysql-query.png?branch=master)](https://travis-ci.org/y-ken/fluent-plugin-mysql-query)
 ===========================
 
 Fluentd Input plugin to execute mysql query and fetch rows. It is useful for stationary interval metrics measurement.
