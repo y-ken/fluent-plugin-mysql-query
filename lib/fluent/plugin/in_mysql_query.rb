@@ -1,3 +1,5 @@
+require 'fluent/input'
+
 module Fluent
   class MysqlQueryInput < Fluent::Input
     Plugin.register_input('mysql_query', self)
