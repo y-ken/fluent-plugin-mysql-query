@@ -23,6 +23,7 @@ $ sudo /usr/lib64/fluent/ruby/bin/fluent-gem install fluent-plugin-mysql-query
   type            mysql_query
   host            localhost           # Optional (default: localhost)
   port            3306                # Optional (default: 3306)
+  socket          /tmp/mysql.sock     # Optional (default: the host's MySQL library default)
   username        nagios              # Optional (default: root)
   password        passw0rd            # Optional (default nopassword)
   interval        30s                 # Optional (default: 1m)
